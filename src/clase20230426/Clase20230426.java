@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import javax.swing.JColorChooser;
 import javax.swing.JOptionPane;
+import clase20230426.MisClases.Motor;
+import clase20230426.MisClases.Rueda;
+import java.util.Date;
 
 
 public class Clase20230426 {
@@ -30,6 +33,8 @@ public class Clase20230426 {
     public static void main(String[] args) {
         ArrayList cosas = new ArrayList();
         
+        
+        
         int opcion = 0;
         
         while (opcion != 8) {
@@ -45,7 +50,14 @@ public class Clase20230426 {
                        9- Agregar un accesorio a un carro
                        10- Listar los accesorios de un carro
                        11- Modificar un accesorio de un carro
-                       12 Eliminar un accesorio de un carro
+                       12- Eliminar un accesorio de un carro
+                       13- Agregarle un motor a algun carro
+                       14- Modificar las propiedad del motor de un carro
+                       15- Agregarle Ruedas a algun carro
+                       16- Modificar las propiedades de alguna rueda de algun carro.
+                       17- Eliminar una rueda de algun carro
+                       18- Imprimir el carro con mayor cilindraje
+                       19- Imprimir los carros con llantas nuevas(asuminedo que se llama nuevo  a las fechas mayores o iguales a la fecha actual).
                        
                        
                        8- Salir del programa
@@ -171,12 +183,191 @@ public class Clase20230426 {
                         }
                     } else{
                         JOptionPane.showMessageDialog(null, "Posicion invalida");
+                        
                     }
+                    
+                }break;
+                
+                case 13:{
+                    int pcarro = Integer.parseInt(JOptionPane.showInputDialog("Ingrese la posicion del carro para agregarle un motor: "));
+                    if (pcarro >= 0 && pcarro <= cosas.size()) {
+                        if (cosas.get(pcarro) instanceof Carro) {
+                            String s = JOptionPane.showInputDialog("Ingrese la serie del motor: ");
+                            int cil = Integer.parseInt(JOptionPane.showInputDialog("Ingrse el cilindraje del motor: "));
+                            System.out.println(cil);
+                            int tor = Integer.parseInt(JOptionPane.showInputDialog("Ingrse el torque del motor: "));
+                            
+                            ((Carro)cosas.get(pcarro)).setMotor(new Motor(s,cil,tor));
+                            JOptionPane.showMessageDialog(null, "Motor Agregado correctamente");
+                        } else{
+                            JOptionPane.showMessageDialog(null, "El objeto en esta posicion no es un carro");
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Posicion invalida");
+                    }
+                    
+                }break;
+                
+                case 14:{
+                    int pcarro = Integer.parseInt(JOptionPane.showInputDialog("Ingrese la posicion del carro para modificarle el motor: "));
+                    if (pcarro >= 0 && pcarro <= cosas.size()) {
+                        if (cosas.get(pcarro) instanceof Carro) {
+                            int poscmotor = Integer.parseInt(JOptionPane.showInputDialog("1. Serie \n2. Cilindraje \n3. Torque"));
+                            switch(poscmotor){
+                                case 1:
+                                    ((Carro)cosas.get(pcarro)).getMotor().setSerie(JOptionPane.showInputDialog("Ingrese el nuevo numero de serie: "));
+                                    JOptionPane.showMessageDialog(null, "Modificado correctamente");
+                                    break;
+                                case 2:
+                                    ((Carro)cosas.get(pcarro)).getMotor().setCilindraje(Integer.parseInt(JOptionPane.showInputDialog("Ingrese el nuevo numero de cilindraje")));
+                                    JOptionPane.showMessageDialog(null, "Modificado correctamente");
+                                    break;
+                                case 3:
+                                    ((Carro)cosas.get(pcarro)).getMotor().setTorque(Integer.parseInt(JOptionPane.showInputDialog("Ingrese el nuevo numero de torque: ")));
+                                    JOptionPane.showMessageDialog(null, "Modificado correctamente");
+                                    break; 
+                                    
+                            }
+                            
+                        } else{
+                            JOptionPane.showMessageDialog(null, "El objeto en esta posicion no es un carro");
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Posicion invalida");
+                    }
+                    
+                }break;
+                
+                case 15:{
+                    int pcarro = Integer.parseInt(JOptionPane.showInputDialog("Ingrese la posicion del carro para agregarle ruedas: "));
+                    if (pcarro >= 0 && pcarro <= cosas.size()) {
+                        if (cosas.get(pcarro) instanceof Carro) {
+                            int cant = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el numero de ruedas: "));
+                            int lon = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el numero de lonas: "));
+                            String fe = JOptionPane.showInputDialog("Ingrese la fehca de fabricacion de las ruedas (yyyy/MM/dd): ");
+                            String[] f1 = fe.split("/");
+                            ((Carro)cosas.get(pcarro)).getRuedas().add(new Rueda(cant,lon,new Date(Integer.parseInt(f1[0])-1900,Integer.parseInt(f1[1])-1,Integer.parseInt(f1[2]))));
+                        } else{
+                            JOptionPane.showMessageDialog(null, "El objeto en esta posicion no es un carro");
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Posicion invalida");
+                    }
+                    
+                }break;
+                case 16:{
+                    int pcarro = Integer.parseInt(JOptionPane.showInputDialog("Ingrese la posicion del carro para editar sus ruedas: "));
+                    if (pcarro >= 0 && pcarro <= cosas.size()) {
+                        if (cosas.get(pcarro) instanceof Carro) {
+                            int indrueda = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el indice de las ruedas del Carro: "));
+                            if (indrueda >= 0 && indrueda <= ((Carro)cosas.get(pcarro)).getRuedas().size()) {
+                                int opcmodr = Integer.parseInt(JOptionPane.showInputDialog("1. Numero de ruedas \n2. Numero de Lonas \n3. Fecha de fabricacion"));
+                                switch(opcmodr){
+                                    case 1:
+                                        ((Carro)cosas.get(pcarro)).getRuedas().get(indrueda).setNumero(Integer.parseInt(JOptionPane.showInputDialog("Ingrese el nuevo numero de ruedas: ")));
+                                        JOptionPane.showMessageDialog(null, "Modificado correctamente");
+                                        
+                                        break;
+                                    case 2:
+                                         ((Carro)cosas.get(pcarro)).getRuedas().get(indrueda).setLonas(Integer.parseInt(JOptionPane.showInputDialog("Ingrese el nuevo numero de lonas: ")));
+                                         JOptionPane.showMessageDialog(null, "Modificado correctamente");
+                                        break;
+
+                                    case 3:
+                                        String nf = JOptionPane.showInputDialog("Ingrese la nueva fecha yyyy/MM/dd: ");
+                                        String[] nft = nf.split("/");
+                                        Date newfecha = new Date(Integer.parseInt(nft[0])-1900,Integer.parseInt(nft[1])-1,Integer.parseInt(nft[2]));
+                                        ((Carro)cosas.get(pcarro)).getRuedas().get(indrueda).setFecha(newfecha);
+                                        JOptionPane.showMessageDialog(null, "Modificado correctamente");
+                                        break;
+                                }
+                            } else{
+                                JOptionPane.showMessageDialog(null, "Posicion invalida");
+                            }
+                        } else{
+                            JOptionPane.showMessageDialog(null, "El objeto en esta posicion no es un carro");
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Posicion invalida");
+                    }
+                    
+                }break;
+                case 17:{
+                    int pcarro = Integer.parseInt(JOptionPane.showInputDialog("Ingrese la posicion del carro para eliminar alguna rueda: "));
+                    if (pcarro >= 0 && pcarro <= cosas.size()) {
+                        if (cosas.get(pcarro) instanceof Carro) {
+                            int indrueda = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el indice de las ruedas del Carro: "));
+                            if (indrueda >= 0 && indrueda <= ((Carro)cosas.get(pcarro)).getRuedas().size()) {
+                                ((Carro)cosas.get(pcarro)).getRuedas().remove(indrueda);
+                            } else{
+                                JOptionPane.showMessageDialog(null, "Posicion invalida");
+                            }
+                        } else{
+                            JOptionPane.showMessageDialog(null, "El objeto en esta posicion no es un carro");
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Posicion invalida");
+                    }
+                    
+                    
+                }break;
+                
+                case 18:{
+                    int conta = 0;
+                    if (!cosas.isEmpty()) {
+                        for (Object cosa : cosas) {
+                            if (cosa instanceof Carro) {
+                                if (((Carro) cosa).getMotor() != null) {
+                                    conta++;
+                                }
+                            }
+                        }
+                    }
+                    if(conta > 0){
+                        Carro fin = null;
+                        for (Object cosa : cosas) {
+                            if (cosa instanceof Carro) {
+                                int t = ((Carro)cosa).getMotor().getCilindraje();
+                                if (fin == null || t > fin.getMotor().getCilindraje()) {
+                                    fin = (Carro)cosa;
+                                }
+                            }
+                        }
+                        JOptionPane.showMessageDialog(null, "Carro con mayor cilindraje: \n"+fin);
+
+                    }
+                }break;
+                
+                case 19:{ 
+                    Date d = new Date();
+                    String fin = "--- Carros con ruedas nuevas --- \n";
+                    int cont = 0;
+                    for (Object cosa : cosas) {
+                        if (cosa instanceof Carro) {
+                            for (Rueda object : ((Carro)cosa).getRuedas()) {
+                                Date fr = object.getFecha();
+                                int comp = fr.compareTo(d);
+                                if (comp > 0 ) {
+                                    cont++;
+                                } else if(comp < 0){    
+                                } else{
+                                    cont++;
+                                }
+                            }
+                            if (cont > 0) {
+                                fin+= cosa;
+                                cont = 0;
+                            }
+                        }
+                    }
+                    JOptionPane.showMessageDialog(null, fin);
+                    
+                    
                     
                 }break;
             }
             
         }//Fin del while
     }
-    
+    //idsfbjdsbfdskbfdksbfdsk
 }
